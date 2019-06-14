@@ -3,6 +3,9 @@ author: Eric Fay
 output: pdf_document
 ---
 # Exercises 1 - 5: Probability in R. v. Clark (Sally)
+
+> ``In 1999 in England Sally Clark was found guilty of the murder of two of her sons. Both infants were found dead in the morning, one in 1996 and another in 1998, and she claimed the cause of death was sudden infant death syndrome (SIDS). No evidence of physical harm was found on the two infants so the main piece of evidence against her was the testimony of Professor Sir Roy Meadow, who testified that the chances of two infants dying of SIDS was 1 in 73 million. He arrived at this figure by finding that the rate of SIDS was 1 in 8,500 and then calculating that the chance of two SIDS cases was 8,500 × 8,500 $\approx$ 73 million.''
+
 ## Independent probabilities: likelihood of two deaths
 Suppose the rate of sudden infant death syndrome (SIDS) is 1 in 8,500.
 Define:
@@ -71,4 +74,4 @@ $\mathbb{P}(D|M)=0.5$
 + The murder rate for mothers is 1 in 1 million;
 $\mathbb{P}(M)=\frac{1}{1000000}$
 
-The probability Sally Clark kill both her children is about 43%.
+The probability Sally Clark killed both her children is about 43%.

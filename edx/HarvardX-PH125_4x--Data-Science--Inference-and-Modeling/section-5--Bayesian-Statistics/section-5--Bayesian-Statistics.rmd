@@ -2,9 +2,10 @@
 author: Eric Fay
 output: pdf_document
 ---
-# Sudden infant death syndrome (SIDS)
-Suppose the rate of SIDS is 1 in 8,500.
-Define
+# Exercises 1 - 5: Probability in R. v. Clark (Sally)
+## Independent probabilities: likelihood of two deaths
+Suppose the rate of sudden infant death syndrome (SIDS) is 1 in 8,500.
+Define:
 
 + $A$ to be `Sally Clark's **first** born infant dies of SIDS'
 + $B$ to be `Sally Clark's **second** born infant dies of SIDS'
@@ -12,13 +13,62 @@ Define
 Then the probabilities for either infanty dieing of SIDS (given no additional information) are equal
 $\mathbb{P}(A) = \mathbb{P}(B)$.
 ```{r}
-1/850
+P_A <- 1/8500; P_A
 ```
-Which is a probability of approximately 0.12%.
+Which is a probability of approximately 0.012%.
 
 When we know Sally's first infant dies this changes the probability of the second infant. Since we beilve SIDS has a gentic link, $A$ and $B$ are not independent. Therefore  $\mathbb{P}(A \land B) \neq \mathbb{P}(A)\cdot\mathbb{P}(B)$
-and we must use Baye's theorem to find the conditional probability.
+and we must use conditional probability.
 
-$$\mathbb{P}(B|A) = \frac{ \mathbb{P}(A|B)\cdot\mathbb{P}(B) }{\mathbb{P}(A)} $$
+$$P(B|A) = \frac{\mathbb{P}(B\land A)}{\mathbb{P}(A)}$$
 
+Assume the probibility that a child will die of SIDS given a sibling died of SIDS is $$\mathbb{P}(B|A)=\frac{1}{100}$$
+```{r}
+P_B_given_A <- 1/100
+```
+Then the probability of both infants dieing of SIDS is
+$$\mathbb{P}(A\land B) = \mathbb{P}(A)\cdot\mathbb{P}(B|A)$$
+```{r}
+P_A_and_B <- P_A * P_B_given_A
+P_A_and_B 
+```
 
+## Bayes' Theorem: Sally Clark's Murder Probability
+Define these propositions to these symbols:
+
++ M to be 'Mother is a murder'
++ D to be 'Mother's two infants die with no evidence of harm'
+
+To find the probability of the mother being a murder given her two childern died with no evidence of harm can be found by Bayes' Theorem.
+$$\mathbb{P}(M|D)=\frac{\mathbb{P}(D|M)\cdot\mathbb{P}(M)}{\mathbb{P}(D)}$$
+
+Suppose the probability of a murder finding a way to kill two of her infants without leaving evidence of physical harm is 50%. 
+Then $$\mathbb{P}(D|M)=0.5$$
+```{r}
+P_D_given_M <- 0.5
+```
+Assume the murder rate among mother is 1 in 1 million.
+$$\mathbb{P}(M)=10^{-6}$$
+```{r}
+P_M <- 1/1000000
+```
+
+From the previous section proposition $D$ is the same as $A\land B$ so $\mathbb{P}(D) = \mathbb{P}(A)\cdot\mathbb{P}(B|A)$.
+```{r}
+P_D <- P_A_and_B
+```
+
+Therefore by Bayes' Theorem
+```{r}
+P_M_given_D <- P_D_given_M * P_M / P_D
+P_M_given_D
+```
+Therefore given our assumptions:
+
++ SIDS is genetic; $\mathbb{P}(B|A) = \frac{1}{100}$
++ There is a 50% she could kill two infants with no evidence of harm;
+$\mathbb{P}(D|M)=0.5$
++ The murder rate for mothers is 1 in 1 million;
+$\mathbb{P}(M)=\frac{1}{1000000}$
+
+The probability Sally Clark kill both her children is about 43%.

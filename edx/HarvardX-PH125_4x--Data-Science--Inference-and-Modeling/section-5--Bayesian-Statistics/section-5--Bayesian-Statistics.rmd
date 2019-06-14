@@ -1,0 +1,24 @@
+---
+author: Eric Fay
+output: pdf_document
+---
+# Sudden infant death syndrome (SIDS)
+Suppose the rate of SIDS is 1 in 8,500.
+Define
+
++ $A$ to be `Sally Clark's **first** born infant dies of SIDS'
++ $B$ to be `Sally Clark's **second** born infant dies of SIDS'
+
+Then the probabilities for either infanty dieing of SIDS (given no additional information) are equal
+$\mathbb{P}(A) = \mathbb{P}(B)$.
+```{r}
+1/850
+```
+Which is a probability of approximately 0.12%.
+
+When we know Sally's first infant dies this changes the probability of the second infant. Since we beilve SIDS has a gentic link, $A$ and $B$ are not independent. Therefore  $\mathbb{P}(A \land B) \neq \mathbb{P}(A)\cdot\mathbb{P}(B)$
+and we must use Baye's theorem to find the conditional probability.
+
+$$\mathbb{P}(B|A) = \frac{ \mathbb{P}(A|B)\cdot\mathbb{P}(B) }{\mathbb{P}(A)} $$
+
+

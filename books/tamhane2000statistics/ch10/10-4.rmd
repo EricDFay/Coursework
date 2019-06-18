@@ -1,12 +1,64 @@
 ---
 author: Eric Fay
-output: pdf-document
+output: pdf_document
 ---
 
 # Exercises
 ## Section 10.2 Fitting the Simple Linear Regression Model
 ### 10.4 The time between eruptions ...
 
-```{R}
+```{R message=FALSE}
+library(ggplot2)
+```
 
+```{R}
+oldfaithful <- read.csv(file='data/1987oldfaithful.csv',header=TRUE,sep=',')
+head(oldfaithful)
+```
+Assume the time between eruptions is linearly dependent on the duration of the last eruption.
+```{R}
+x <- oldfaithful$'Duration.of.Eruption'
+y <- oldfaithful$'Time.Between.Eruptions'
+ggplot(data=oldfaithful, aes(x,y)) + geom_point()
+```
+
+Let
+
++ $n=21$
++ $(x_i)_{i\in[n]}$ be the values of the independent variable.
++ $(Y_i)_{i\in[n]}$ be random variables for which $(y_i)_{i\in[n]}$ are the obserations.
+
+Assume for each $i\in[n]$ that $Y_i$ is linearly dependent on $x_i$.
+In particular that there exists two real values $\beta_0$ and $\beta_1$ and a random error $\epsilon_i\sim N(0,\sigma^2)$ such that
+$$Y_i = \beta_0 + \beta_1\cdot x_i + \epsilon_i$$
+
+We can estimate $\beta_0$ and $\beta_1$ by the least squares method:
+$$\underset{(\beta_0,\beta_1)\in\mathbb{R}^2}{\text{min}} Q(\beta_0,\beta_1)=\sum_{i=1}^{n}(y_i-(\beta_0+\beta_1\cdot x_i))^2$$
+
+From calculus we know a function $Q$ has a critical point at $(\hat{\beta}_0,\hat{\beta}_1)$ if $\nabla Q(\hat{\beta}_0,\hat{\beta}_1) = 0$.
+$$\frac{\partial Q}{\partial \beta_0} = -2\cdot\sum_{i=1}^{n}(y_i-(\beta_0+\beta_1\cdot x_i))$$
+$$\frac{\partial Q}{\partial \beta_1} = -2\cdot\sum_{i=1}^{n}x_i\cdot(y_i-(\beta_0+\beta_1\cdot x_i))$$
+
+Therefore
+$$n\cdot\hat{\beta}_0 + \left(\sum_{i=1}^{n}x_i\right)\cdot\hat{\beta}_1 = \left(\sum_{i=1}^{n}y_i\right)$$
+$$\left(\sum_{i=1}^{n}x_i\right)\cdot\hat{\beta}_0 + \left(\sum_{i=1}^{n}x_i^2\right)\cdot\hat{\beta}_1 = \left(\sum_{i=1}^{n}x_i\cdot y_i\right)$$
+
+---
+Note this yeilds a symmetric matrix
+$$\begin{bmatrix}n & \sum_{i=1}^{n}x_i \\ \sum_{i=1}^{n}x_i & \sum_{i=1}^{n}x_i^2\end{bmatrix}\cdot\begin{bmatrix}\hat{\beta}_0 \\ \hat{\beta_1}\end{bmatrix}=
+\begin{bmatrix} \sum_{i=1}^{n}y_i \\ \sum_{i=1}^{n}x_i\cdot y_i \end{bmatrix}$$
+---
+
+By defining
+$S_{xy} = \sum_{i=1}^{n}(x_i-\bar{x})\cdot(y_i-\bar{y})$
+one can show
+$$\hat{\beta}_0=\bar{y}-\hat{\beta}_1\cdot\bar{x},\qquad\hat{\beta}_1=\frac{S_{xy}}{S_{xx}}$$
+```{R}
+S <- function(x,y) {
+  sum( (x-mean(x))*(y-mean(y)) )
+}
+```
+```{R}
+betahat_1 <- S(x,y)/S(x,x) # slope
+betahat_0 <- mean(y) - betahat_1*mean(x) # y-intercept
 ```

@@ -1,4 +1,5 @@
 key | ISBN | Title | Author
+|--|--|--|--|
 tamhane2000statistics | 0-13-744426-5 | Statistics and Data Analysis: From Elementary to Intermediate | Tamhane, A.C. and Dunlop, D.D.
 
 ```{bibtex}

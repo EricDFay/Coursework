@@ -19,9 +19,16 @@ Assume the time between eruptions is linearly dependent on the duration of the l
 ```{R}
 x <- oldfaithful$'Duration.of.Eruption'
 y <- oldfaithful$'Time.Between.Eruptions'
-ggplot(data=oldfaithful, aes(x,y)) + geom_point()
-```
-
+ggplot(data=oldfaithful, aes(x,y)) + 
+  geom_point() + 
+  geom_vline(xintercept = mean(x)) +
+  geom_hline(yintercept = mean(y)) +
+  labs(
+    title = 'Old Faithful Eruptions 1987', 
+    x = 'Duration of eruption in minutes', 
+    y = 'Minutes until next eruption'
+  )
+``` 
 Let
 
 + $n=21$
@@ -50,7 +57,8 @@ $$\begin{bmatrix}n & \sum_{i=1}^{n}x_i \\ \sum_{i=1}^{n}x_i & \sum_{i=1}^{n}x_i^
 ---
 
 By defining
-$S_{xy} = \sum_{i=1}^{n}(x_i-\bar{x})\cdot(y_i-\bar{y})$
+$S_{xy} = \sum_{i=1}^{n}(x_i-\bar{x})\cdot(y_i-\bar{y})$,
+where $\bar{x} = \frac{1}{n}\sum_{i=1}^{n}x_i$,
 one can show
 $$\hat{\beta}_0=\bar{y}-\hat{\beta}_1\cdot\bar{x},\qquad\hat{\beta}_1=\frac{S_{xy}}{S_{xx}}$$
 ```{R}
@@ -61,4 +69,24 @@ S <- function(x,y) {
 ```{R}
 betahat_1 <- S(x,y)/S(x,x) # slope
 betahat_0 <- mean(y) - betahat_1*mean(x) # y-intercept
+```
+This gives us a linear function to estimate the time between eruptions.
+$$\hat{y}(x) = \hat{\beta}_1\cdot x + \hat{\beta}_0$$
+```{R}
+yhat <- function(x) return(betahat_1*x + betahat_0)
+ggplot(oldfaithful, aes(x,y)) +
+  geom_point() +
+  stat_function(fun = yhat)
+```
+So if an eruption of Old Faithful lasted 3 minutes we could estimate the next eruption to occur in
+
+```{R}
+yhat(3)
+```
+minutes.
+
+The residue plot to check linearity
+```{R}
+y - yhat(x) # residuals
+ggplot(oldfaithful, aes(x,y-yhat(x))) + geom_point()
 ```

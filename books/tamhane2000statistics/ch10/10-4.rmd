@@ -1,0 +1,12 @@
+---
+author: Eric Fay
+output: pdf-document
+---
+
+# Exercises
+## Section 10.2 Fitting the Simple Linear Regression Model
+### 10.4 The time between eruptions ...
+
+```{R}
+
+```
